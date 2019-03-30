@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour {
                 vel = Vector3.Normalize(GetTouchPos(touch1) - transform.position) * moveSpeed;
             } else if(holdTime > 0.1f)
                 vel = Vector3.zero;
+        } else if(Input.GetMouseButtonDown(0)) {
+            StartCoroutine(SpawnTapMarker(Camera.main.ScreenToWorldPoint(Input.mousePosition)));
         } else {
             holdTime = 0;
         }
