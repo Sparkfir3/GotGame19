@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject tapMarker;
 
     private float holdTime = 0;
-    private bool moveToTap = true;
+    private bool moveToTap = false;
     private Rigidbody2D rb;
 
     private void Awake() {
@@ -53,13 +53,24 @@ public class PlayerController : MonoBehaviour {
 
     private IEnumerator SpawnTapMarker(Vector3 pos) {
         tapMarker.transform.position = pos;
+        tapMarker.GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 255);
         moveToTap = true;
         tapStatus = TapMarkerStatus.Spawning;
-        yield return null;
+        yield return new WaitForSeconds(0.25f);
+        StartCoroutine(DespawnTapMarker());
     }
 
     private IEnumerator DespawnTapMarker() {
         tapStatus = TapMarkerStatus.Despawning;
+        SpriteRenderer sprite = tapMarker.GetComponent<SpriteRenderer>();
+        while(sprite.color.a > 0) {
+            sprite.color -= new Color32(0, 0, 0, 5);
+            yield return new WaitForSeconds(0.025f);
+            if(tapStatus == TapMarkerStatus.Spawning) {
+                sprite.color = new Color32(255, 0, 0, 255);
+                break;
+            }
+        }
         yield return null;
     }
 
