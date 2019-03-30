@@ -47,6 +47,10 @@ public class PlayerController : MonoBehaviour {
         rb.velocity = vel;
     }
 
+    private void LateUpdate() {
+        transform.rotation = Quaternion.Euler(0, 0, Vector3.Angle(Vector3.up, vel));
+    }
+
     private bool AtDestination(Vector3 target) {
         return Vector3.Distance(transform.position, target) < 0.1f;
     }
@@ -80,4 +84,11 @@ public class PlayerController : MonoBehaviour {
         return pos;
     }
 
+    private void OnCollisionStay2D(Collision2D collision) {
+        if(collision.gameObject.CompareTag("Terrain")) {
+            moveToTap = false;
+            holdTime = 0;
+        }
+    }
+    
 }
