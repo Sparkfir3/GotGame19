@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject tapMarker;
 
     private float holdTime = 0;
-    private bool moveToTap = false;
+    private bool moveToTap = true;
     private Rigidbody2D rb;
 
     private void Awake() {
@@ -19,12 +19,14 @@ public class PlayerController : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    private void FixedUpdate() {
     Touch touch1;
+    Vector3 vel;
+    private void FixedUpdate() {
         // Basic movement -----------------------------------------------------
-        if(moveToTap) {
-            rb.velocity = Vector3.Normalize(tapMarker.transform.position - transform.position) * moveSpeed;
-        }
+        if(moveToTap && !AtDestination(tapMarker.transform.position)) {
+            vel = Vector3.Normalize(tapMarker.transform.position - transform.position) * moveSpeed;
+        } else
+            vel = Vector3.zero;
         // Inputs -------------------------------------------------------------
         if(Input.touchCount > 0) {
             touch1 = Input.GetTouch(0);
@@ -34,13 +36,19 @@ public class PlayerController : MonoBehaviour {
             } else {
                 holdTime += touch1.deltaTime;
             }
-            if(holdTime > 0.1f) {
-                rb.velocity = Vector3.Normalize(GetTouchPos(touch1) - transform.position) * moveSpeed;
-            }
+            if(holdTime > 0.1f && !AtDestination(GetTouchPos(touch1))) {
+                moveToTap = false;
+                vel = Vector3.Normalize(GetTouchPos(touch1) - transform.position) * moveSpeed;
+            } else if(holdTime > 0.1f)
+                vel = Vector3.zero;
         } else {
-            rb.velocity = Vector3.zero;
             holdTime = 0;
         }
+        rb.velocity = vel;
+    }
+
+    private bool AtDestination(Vector3 target) {
+        return Vector3.Distance(transform.position, target) < 0.1f;
     }
 
     private IEnumerator SpawnTapMarker(Vector3 pos) {
