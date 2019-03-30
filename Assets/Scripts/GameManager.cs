@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour {
         Text b = winScreen.transform.Find("Thanks").GetComponent<Text>();
         Text c = winScreen.transform.Find("Score").GetComponent<Text>();
         Image d = winScreen.transform.Find("Button").GetComponent<Image>();
-        Text e = winScreen.transform.Find("Text").GetComponent<Text>();
+        Text e = d.transform.Find("Text").GetComponent<Text>();
         while(a.color.a < 225) {
             a.color += new Color32(0, 0, 0, 5);
             b.color += new Color32(0, 0, 0, 5);
