@@ -4,7 +4,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
-    
+
+    private void Awake() {
+        Screen.orientation = ScreenOrientation.LandscapeRight;
+    }
+
     public void LoadScene(string scene) {
         try {
             SceneManager.LoadScene(scene);
