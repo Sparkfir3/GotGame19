@@ -47,6 +47,11 @@ public class PlayerController : MonoBehaviour {
         rb.velocity = vel;
     }
 
+    private void LateUpdate() {
+        transform.rotation = Quaternion.Euler(0, 0, Vector3.Angle(Vector3.up, vel));
+        Debug.Log(Vector3.Angle(Vector3.up, vel));
+    }
+
     private bool AtDestination(Vector3 target) {
         return Vector3.Distance(transform.position, target) < 0.1f;
     }
@@ -78,6 +83,12 @@ public class PlayerController : MonoBehaviour {
         Vector3 pos = Camera.main.ScreenToWorldPoint(touch.position);
         pos.z = 0;
         return pos;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if(moveToTap && collision.gameObject.CompareTag("Terrain")) {
+            moveToTap = false;
+        }
     }
 
 }
