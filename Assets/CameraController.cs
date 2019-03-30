@@ -25,4 +25,9 @@ public class CameraController : MonoBehaviour {
         }
     }
 
+    public void SwitchAxis(Direction dir, Vector3 axis) {
+        currentDir = dir;
+        currentAxis = axis;
+    }
+
 }
