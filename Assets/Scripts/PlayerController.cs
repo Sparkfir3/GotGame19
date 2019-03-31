@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour {
     private void OnCollisionStay2D(Collision2D collision) {
         if(collision.gameObject.CompareTag("Terrain")) {
             moveToTap = false;
-            holdTime = 0;
+            //holdTime = 0;
         }
     }
     
