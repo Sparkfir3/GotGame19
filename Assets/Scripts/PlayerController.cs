@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour {
     public int health, score;
     public float moveSpeed;
     public GameObject tapMarker;
-    public Text healthText, scoreText, scoreB;
+    public Text healthText, scoreText, scoreB, scoreC;
     public GameManager gameManager;
 
     private float holdTime = 0;
@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour {
         healthText.text = "Health: " + health;
         scoreText.text = "Score: " + score;
         scoreB.text = "Score: " + score;
+        scoreC.text = "Score: " + score;
     }
 
     private bool AtDestination(Vector3 target) {
