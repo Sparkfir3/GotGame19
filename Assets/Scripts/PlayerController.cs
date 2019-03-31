@@ -1,14 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
     public enum TapMarkerStatus { Spawning, Moving, Despawning, Null };
     private TapMarkerStatus tapStatus = TapMarkerStatus.Null;
 
+    public int health, score;
     public float moveSpeed;
     public GameObject tapMarker;
+    public Text healthText, scoreText;
+    public GameManager gameManager;
 
     private float holdTime = 0;
     private bool moveToTap = false;
@@ -57,6 +61,8 @@ public class PlayerController : MonoBehaviour {
             angle = Vector3.Angle(Vector3.up, vel);
         }
         transform.rotation = Quaternion.Euler(0, 0, angle);
+        healthText.text = "Health: " + health;
+        scoreText.text = "Score: " + score;
     }
 
     private bool AtDestination(Vector3 target) {
@@ -92,11 +98,23 @@ public class PlayerController : MonoBehaviour {
         return pos;
     }
 
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if(collision.gameObject.CompareTag("Lumberjack")) {
+            health--;
+        }
+    }
+
     private void OnCollisionStay2D(Collision2D collision) {
         if(collision.gameObject.CompareTag("Terrain")) {
             moveToTap = false;
-            holdTime = 0;
+            //holdTime = 0;
         }
     }
-    
+
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if(collision.gameObject.CompareTag("WinCondition")) {
+            gameManager.OnWin();
+        }
+    }
+
 }

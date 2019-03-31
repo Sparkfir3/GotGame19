@@ -12,6 +12,8 @@ TagManager:
   - Squirrel
   - Wolf
   - Lumberjack
+  - Terrain
+  - WinCondition
   layers:
   - Default
   - TransparentFX
@@ -21,8 +23,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Animal
+  - Player
   - 
   - 
   - 
@@ -48,4 +50,19 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 361232275
+    locked: 0
+  - name: Terrain
+    uniqueID: 3275883401
+    locked: 0
+  - name: Other
+    uniqueID: 11806233
+    locked: 0
+  - name: Tap Marker
+    uniqueID: 2011431739
+    locked: 0
+  - name: Player
+    uniqueID: 3967803685
     locked: 0

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
     
-    public enum Direction { Vertical, Horizontal }
+    //public enum Direction { Vertical, Horizontal }
 
     public Transform player;
-    public Vector3 currentAxis;
-    public Direction currentDir;
+    //public Vector3 currentAxis;
+    //public Direction currentDir;
 
     private Vector3 basePos;
 
@@ -16,18 +16,19 @@ public class CameraController : MonoBehaviour {
         basePos = transform.position;
     }
 
-    private float posDif;
+    //private float posDif;
     private void LateUpdate() {
-        if(currentDir == Direction.Vertical) {
+        /*if(currentDir == Direction.Vertical) {
             transform.position = new Vector3(basePos.x, player.position.y, basePos.z);
         } else {
             transform.position = new Vector3(player.position.x, basePos.y, basePos.z);
-        }
+        }*/
+        transform.position = new Vector3(player.position.x, player.position.y, transform.position.z);
     }
 
-    public void SwitchAxis(Direction dir, Vector3 axis) {
+    /*public void SwitchAxis(Direction dir, Vector3 axis) {
         currentDir = dir;
         currentAxis = axis;
-    }
+    }*/
 
 }
