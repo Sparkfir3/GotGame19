@@ -11,7 +11,8 @@ public class LumberJack1_AI : MonoBehaviour
     Rigidbody2D lumbJackRigid;
     public Transform lumbJackSpawnLocation;
     public int lumbJackHealth;
-    public int moveSpeed;
+    public float moveSpeed;
+    public int knockback;
     //public AudioClip lumbJackShout;
 
     //External Data
@@ -31,8 +32,6 @@ public class LumberJack1_AI : MonoBehaviour
         if(Vector2.Distance(transform.position, player.position) <= 12)
         {
             lumbJackRigid.velocity = Vector3.Normalize(player.position - transform.position) * moveSpeed;
-            StartCoroutine("Shout");
-
         }
 
 
@@ -45,20 +44,20 @@ public class LumberJack1_AI : MonoBehaviour
             || collision.collider.tag == "Player")
         {
             lumbJackHealth--;
-            lumbJackRigid.AddForce(Vector3.Normalize(player.position - transform.position) * moveSpeed * 10000);
+            lumbJackRigid.AddForce(Vector3.Normalize(collision.collider.gameObject.transform.position - transform.position) * moveSpeed * knockback);
         }
 
         if (collision.collider.tag == "Squirrel" || collision.collider.tag == "Fox")
         {
             lumbJackHealth -= 2;
-            lumbJackRigid.AddForce(Vector3.Normalize(player.position - transform.position) * moveSpeed);
+            lumbJackRigid.AddForce(Vector3.Normalize(collision.collider.gameObject.transform.position - transform.position) * moveSpeed * knockback);
         }
 
         if (collision.collider.tag == "Wolf" || collision.collider.tag == "Bear")
         {
             Debug.Log("Wolf Collision");
             lumbJackHealth -= 3;
-            lumbJackRigid.AddForce(Vector3.Normalize(collision.collider.gameObject.transform.position - transform.position) * moveSpeed * -1000);
+            lumbJackRigid.AddForce(Vector3.Normalize(collision.collider.gameObject.transform.position - transform.position) * moveSpeed * knockback);
         }
 
         if (lumbJackHealth <= 0)
