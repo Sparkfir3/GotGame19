@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour {
 
     public void LoadScene(string scene) {
         try {
+            Time.timeScale = 1;
+            paused = false;
             SceneManager.LoadScene(scene);
         } catch {
             Debug.LogError("Attempting to load invalid scene " + scene);
@@ -32,6 +34,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void OnWin() {
+        GetComponent<AudioSource>().Play();
         StartCoroutine(WinScreen());
     }
 

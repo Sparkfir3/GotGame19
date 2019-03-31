@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour {
     public int health, score;
     public float moveSpeed;
     public GameObject tapMarker;
-    public Text healthText, scoreText;
+    public Text healthText, scoreText, scoreB;
     public GameManager gameManager;
 
     private float holdTime = 0;
@@ -63,6 +63,7 @@ public class PlayerController : MonoBehaviour {
         transform.rotation = Quaternion.Euler(0, 0, angle);
         healthText.text = "Health: " + health;
         scoreText.text = "Score: " + score;
+        scoreB.text = "Score: " + score;
     }
 
     private bool AtDestination(Vector3 target) {
@@ -101,6 +102,7 @@ public class PlayerController : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision) {
         if(collision.gameObject.CompareTag("Lumberjack")) {
             health--;
+            GetComponent<AudioSource>().Play();
         }
     }
 
