@@ -37,6 +37,11 @@ public class LumberJack1_AI : MonoBehaviour
 
     }
 
+    private void LateUpdate()
+    {
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+    }
+
     //Applies damage and knockback when lumberjack collides with player or forest ally
     private void OnCollisionEnter2D (Collision2D collision)
     {
@@ -62,7 +67,12 @@ public class LumberJack1_AI : MonoBehaviour
 
         if (lumbJackHealth <= 0)
             Destroy(gameObject);
-       // myAudioSource.PlayOneShot(lumbJackShout);
+
+        if (collision.collider.tag == "Terrain")
+        {
+            lumbJackRigid.AddForce(Vector3.Normalize(collision.collider.gameObject.transform.position - transform.position) * moveSpeed * knockback);
+        }
+        // myAudioSource.PlayOneShot(lumbJackShout);
     }
 
     IEnumerator Shout()

@@ -99,6 +99,7 @@ MonoBehaviour:
     type: 3}
   lumbJackHealth: 10
   moveSpeed: 10
+  knockback: 0
   player: {fileID: 6145036661406100612, guid: b8f61d67eeba6884aa9b9accb2e92ca6, type: 3}
 --- !u!50 &3245211082573172191
 Rigidbody2D:

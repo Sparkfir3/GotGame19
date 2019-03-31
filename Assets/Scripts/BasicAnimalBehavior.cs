@@ -51,6 +51,7 @@ public class BasicAnimalBehavior : MonoBehaviour
     //Basic AI Movement Logic
     void Update()
     {    
+
         //AI will stay withing a certain range
         if (Vector2.Distance(transform.position, player.position) > 1)
         {
@@ -81,7 +82,21 @@ public class BasicAnimalBehavior : MonoBehaviour
 
 
         animalRigid.velocity = myVector;
-    } 
+    }
+
+    private float angle;
+    private void LateUpdate()
+    {
+        if (myVector.x > 0.05f)
+        {
+            angle = Vector3.Angle(Vector3.up, myVector * -1f) - 180f;
+        }
+        else
+        {
+            angle = Vector3.Angle(Vector3.up, myVector);
+        }
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+    }
 
     //Damage
     private void OnCollisionEnter2D(Collision2D collision)
@@ -91,6 +106,11 @@ public class BasicAnimalBehavior : MonoBehaviour
 
         if (health <= 0)
             Destroy(gameObject, 0.25f);
+
+        if(collision.collider.tag == "Terrain")
+        {
+            myVector = Vector3.Normalize(transform.position - collision.collider.gameObject.transform.position) * moveSpeed;
+        }
         //myAudioSource.PlayOneShot(animalNoise);
     }
 }
