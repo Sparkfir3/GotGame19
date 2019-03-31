@@ -6,37 +6,33 @@ using UnityEngine.Audio;
 
 public class LumberJack1_AI : MonoBehaviour
 {
+    
     //LumberJack Data
-    NavMeshAgent lumbJackAgent;
-    Collider2D lumbJackCollider;
     Rigidbody2D lumbJackRigid;
     public Transform lumbJackSpawnLocation;
     public int lumbJackHealth;
-    public AudioClip lumbJackShout;
+    public int moveSpeed;
+    //public AudioClip lumbJackShout;
 
     //External Data
-    public GameObject player;
-    Collider2D playerCollider;
-    public Collider2D[] animalColliders;            //0=mouse, 1=rabbit, 2=squirrel, 3=fox, 4=wolf, 5=bear
-    public AudioSource myAudioSource;
+    public Transform player;
+   // public AudioSource myAudioSource;
 
     // Start is called before the first frame update
     void Start()
     {
-        lumbJackAgent = GetComponent<NavMeshAgent>();
-        lumbJackCollider = GetComponent<Collider2D>();
         lumbJackRigid = GetComponent<Rigidbody2D>();
-        Instantiate(gameObject, lumbJackSpawnLocation);
-        playerCollider = player.GetComponent<Collider2D>();
+        //Instantiate(gameObject, lumbJackSpawnLocation);
     }
 
-    // Update is called once per frame
+    //Basic enemy movement logic
     void Update()
     {
-        if(Vector2.Distance(transform.position, player.transform.position) <= 12)
+        if(Vector2.Distance(transform.position, player.position) <= 12)
         {
-            lumbJackAgent.SetDestination(player.transform.position);
+            lumbJackRigid.velocity = Vector3.Normalize(player.position - transform.position) * moveSpeed;
             StartCoroutine("Shout");
+
         }
 
 
@@ -45,34 +41,35 @@ public class LumberJack1_AI : MonoBehaviour
     //Applies damage and knockback when lumberjack collides with player or forest ally
     private void OnCollisionEnter2D (Collision2D collision)
     {
-        if (lumbJackCollider.IsTouching(animalColliders[0]) || lumbJackCollider.IsTouching(animalColliders[1])
-            || lumbJackCollider.IsTouching(playerCollider))
+        if (collision.collider.tag == "Mouse" || collision.collider.tag == "Rabbit"
+            || collision.collider.tag == "Player")
         {
             lumbJackHealth--;
-            lumbJackRigid.AddForce((player.transform.position*-100));
+            lumbJackRigid.AddForce(Vector3.Normalize(player.position - transform.position) * moveSpeed * 10000);
         }
 
-        if (lumbJackCollider.IsTouching(animalColliders[2]) || lumbJackCollider.IsTouching(animalColliders[3]))
+        if (collision.collider.tag == "Squirrel" || collision.collider.tag == "Fox")
         {
             lumbJackHealth -= 2;
-            lumbJackRigid.AddForce((player.transform.position * -150));
+            lumbJackRigid.AddForce(Vector3.Normalize(player.position - transform.position) * moveSpeed);
         }
 
-        if (lumbJackCollider.IsTouching(animalColliders[4]) || lumbJackCollider.IsTouching(animalColliders[5]))
+        if (collision.collider.tag == "Wolf" || collision.collider.tag == "Bear")
         {
+            Debug.Log("Wolf Collision");
             lumbJackHealth -= 3;
-            lumbJackRigid.AddForce((player.transform.position * -200));
+            lumbJackRigid.AddForce(Vector3.Normalize(collision.collider.gameObject.transform.position - transform.position) * moveSpeed * -1000);
         }
 
         if (lumbJackHealth <= 0)
             Destroy(gameObject);
-        myAudioSource.PlayOneShot(lumbJackShout);
+       // myAudioSource.PlayOneShot(lumbJackShout);
     }
 
     IEnumerator Shout()
     {
-        myAudioSource.PlayOneShot(lumbJackShout);
+       // myAudioSource.PlayOneShot(lumbJackShout);
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
     }
 }
