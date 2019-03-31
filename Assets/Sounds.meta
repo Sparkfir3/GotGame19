@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 9ceec6cc447c0d341b5140c3ac5feeac
+=======
+guid: 2c17dad72ae04cf469f085c8f9d9312b
+>>>>>>> temp
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

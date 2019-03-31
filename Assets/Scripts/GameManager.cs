@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     
-    public GameObject winScreen, pauseMenu;
+    public GameObject winScreen, pauseMenu, gameOverScreen;
 
     private bool paused = false;
 
@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour {
 
     public void LoadScene(string scene) {
         try {
+            Time.timeScale = 1;
+            paused = false;
             SceneManager.LoadScene(scene);
         } catch {
             Debug.LogError("Attempting to load invalid scene " + scene);
@@ -32,15 +34,20 @@ public class GameManager : MonoBehaviour {
     }
 
     public void OnWin() {
-        StartCoroutine(WinScreen());
+        GetComponent<AudioSource>().Play();
+        StartCoroutine(WinScreen(winScreen));
     }
 
-    private IEnumerator WinScreen() {
+    public void GameOver() {
+        StartCoroutine(WinScreen(gameOverScreen));
+    }
+
+    private IEnumerator WinScreen(GameObject obj) {
         winScreen.SetActive(true);
-        Image a = winScreen.GetComponent<Image>();
-        Text b = winScreen.transform.Find("Thanks").GetComponent<Text>();
-        Text c = winScreen.transform.Find("Score").GetComponent<Text>();
-        Image d = winScreen.transform.Find("Button").GetComponent<Image>();
+        Image a = obj.GetComponent<Image>();
+        Text b = obj.transform.Find("Thanks").GetComponent<Text>();
+        Text c = obj.transform.Find("Score").GetComponent<Text>();
+        Image d = obj.transform.Find("Button").GetComponent<Image>();
         Text e = d.transform.Find("Text").GetComponent<Text>();
         while(a.color.a < 225) {
             a.color += new Color32(0, 0, 0, 5);
