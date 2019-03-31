@@ -23,6 +23,12 @@ public class PlayerController : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
     }
 
+    private void Update() {
+        if(health <= 0) {
+            gameManager.GameOver();
+        }
+    }
+
     Touch touch1;
     Vector3 vel;
     private void FixedUpdate() {
