@@ -6,7 +6,9 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     
-    public GameObject winScreen;
+    public GameObject winScreen, pauseMenu;
+
+    private bool paused = false;
 
     private void Awake() {
         Screen.orientation = ScreenOrientation.LandscapeRight;
@@ -51,6 +53,15 @@ public class GameManager : MonoBehaviour {
         yield return null;
     }
 
-
+    public void Pause() {
+        paused = !paused;
+        if(paused) {
+            pauseMenu.SetActive(false);
+            Time.timeScale = 1;
+        } else {
+            pauseMenu.SetActive(true);
+            Time.timeScale = 0;
+        }
+    }
 
 }
