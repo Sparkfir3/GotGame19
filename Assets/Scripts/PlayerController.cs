@@ -49,8 +49,14 @@ public class PlayerController : MonoBehaviour {
         rb.velocity = vel;
     }
 
+    private float angle;
     private void LateUpdate() {
-        transform.rotation = Quaternion.Euler(0, 0, Vector3.Angle(Vector3.up, vel));
+        if(vel.x > 0.05f) {
+            angle = Vector3.Angle(Vector3.up, vel * -1f) - 180f;
+        } else {
+            angle = Vector3.Angle(Vector3.up, vel);
+        }
+        transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 
     private bool AtDestination(Vector3 target) {
