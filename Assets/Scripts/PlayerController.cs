@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour {
     public float moveSpeed;
     public GameObject tapMarker;
     public Text healthText, scoreText;
+    public GameManager gameManager;
 
     private float holdTime = 0;
     private bool moveToTap = false;
@@ -97,11 +98,23 @@ public class PlayerController : MonoBehaviour {
         return pos;
     }
 
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if(collision.gameObject.CompareTag("Lumberjack")) {
+            health--;
+        }
+    }
+
     private void OnCollisionStay2D(Collision2D collision) {
         if(collision.gameObject.CompareTag("Terrain")) {
             moveToTap = false;
             //holdTime = 0;
         }
     }
-    
+
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if(collision.gameObject.CompareTag("WinCondition")) {
+            gameManager.OnWin();
+        }
+    }
+
 }

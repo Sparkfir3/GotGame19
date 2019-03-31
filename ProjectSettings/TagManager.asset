@@ -13,6 +13,7 @@ TagManager:
   - Wolf
   - Lumberjack
   - Terrain
+  - WinCondition
   layers:
   - Default
   - TransparentFX
