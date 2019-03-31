@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
     public enum TapMarkerStatus { Spawning, Moving, Despawning, Null };
     private TapMarkerStatus tapStatus = TapMarkerStatus.Null;
 
+    public int health, score;
     public float moveSpeed;
     public GameObject tapMarker;
+    public Text healthText, scoreText;
 
     private float holdTime = 0;
     private bool moveToTap = false;
@@ -57,6 +60,8 @@ public class PlayerController : MonoBehaviour {
             angle = Vector3.Angle(Vector3.up, vel);
         }
         transform.rotation = Quaternion.Euler(0, 0, angle);
+        healthText.text = "Health: " + health;
+        scoreText.text = "Score: " + score;
     }
 
     private bool AtDestination(Vector3 target) {
