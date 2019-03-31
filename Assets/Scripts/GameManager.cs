@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour {
 
     private void Update() {
         if(Input.GetKeyDown(KeyCode.H))
-            OnWin();
+            GameOver();
     }
 
     public void LoadScene(string scene) {
@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private IEnumerator WinScreen(GameObject obj) {
-        winScreen.SetActive(true);
+        obj.SetActive(true);
         Image a = obj.GetComponent<Image>();
         Text b = obj.transform.Find("Thanks").GetComponent<Text>();
         Text c = obj.transform.Find("Score").GetComponent<Text>();
@@ -61,7 +61,6 @@ public class GameManager : MonoBehaviour {
     }
 
     public void Pause() {
-        paused = !paused;
         if(paused) {
             pauseMenu.SetActive(false);
             Time.timeScale = 1;
@@ -69,6 +68,7 @@ public class GameManager : MonoBehaviour {
             pauseMenu.SetActive(true);
             Time.timeScale = 0;
         }
+        paused = !paused;
     }
 
 }
